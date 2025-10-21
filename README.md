@@ -5,7 +5,7 @@ Prototype de site web qui permet de capturer des figurines Pokemon equipees de p
 ## Fonctionnalites actuelles
 
 - Interface statique (HTML, CSS, JavaScript natif) sans dependances externes.
-- Capture automatique lorsqu'on ouvre une URL du type `?pokemon=pikachu` ou `?tag=<id>`.
+- Capture automatique lorsqu'on ouvre `capture.html` avec un identifiant (ex. `capture.html?pokemon=pikachu`).
 - Mise a jour de la progression et stockage local dans le navigateur (`localStorage`).
 - Liste des figurines avec indices, lieu d'exposition et types.
 - Bouton de reinitialisation du Pokedex local.
@@ -14,7 +14,7 @@ Prototype de site web qui permet de capturer des figurines Pokemon equipees de p
 
 1. Servez le dossier via un serveur HTTP statique (exemples : `npx serve`, `python -m http.server`, ou hebergement Netlify/Vercel).
 2. Ouvrez le site depuis ton smartphone ou tout autre appareil pouvant ouvrir un lien NFC.
-3. Approche la figurine de ton telephone : le lien encode t'amene sur la page du Pokemon et valide la capture.
+3. Approche la figurine de ton telephone : le lien encode t'amene sur `capture.html` et valide la capture, puis utilise le bouton pour revenir a l'accueil.
 
 > Astuce : pour tester sur desktop, simulez des captures en ajoutant manuellement des identifiants dans `localStorage` (`localStorage.setItem("pokemon-caching-progress-v1", '["pikachu"]')`).
 
@@ -22,14 +22,14 @@ Prototype de site web qui permet de capturer des figurines Pokemon equipees de p
 
 1. Programmez la puce NTAG213 avec un identifiant stable (texte brut, URL ou JSON).
 2. Ajoutez cet identifiant dans le tableau `tagIds` du Pokemon correspondant dans `scripts/data/pokedex.js`.
-3. Pour ouvrir une page dediee lors du scan, encodez une URL du type `https://ton-site.exemple/?pokemon=pikachu`. Le site reconnaitra l'identifiant et confirmera la capture.
+3. Pour ouvrir une page dediee lors du scan, encodez une URL du type `https://ton-site.exemple/capture.html?pokemon=pikachu`. La page reconnaitra l'identifiant et confirmera la capture.
 4. Deploiement : mettez a jour le site avec votre nouvelle configuration.
 
 Le code accepte l'identifiant fourni dans l'URL (parametres `pokemon`, `id` ou `tag`). Choisis une convention d'identifiants et encode-la sur chaque puce NFC.
 
 ## Limitations et prochaines etapes
 
-- Pour les appareils qui ne declenchent pas automatiquement l'URL NFC, prevois un QR code ou un code court redirigeant vers la bonne page.
+- Pour les appareils qui ne declenchent pas automatiquement l'URL NFC, prevois un QR code ou un code court qui pointe vers `capture.html`.
 - Aucune authentification ou persistence serveur pour le moment. Ajoutez un backend (ex : Supabase, Firebase, FastAPI + base de donnees) pour :
   - Sauvegarder la progression des joueurs.
   - Organiser des evenements avec scores en temps reel.
@@ -41,11 +41,13 @@ Le code accepte l'identifiant fourni dans l'URL (parametres `pokemon`, `id` ou `
 
 ```
 pokemon_caching/
-|-- index.html        # Page principale
+|-- index.html        # Accueil et Pokédex
+|-- capture.html      # Page de capture (via URL NFC)
 |-- styles/
 |   `-- main.css      # Style global
 `-- scripts/
-    |-- app.js        # Logique de capture via URL et interface
+    |-- app.js        # Logique d'affichage de l'accueil et du Pokédex
+    |-- capture.js    # Traitement d'une capture via URL
     `-- data/
         `-- pokedex.js # Configuration des figurines
 ```

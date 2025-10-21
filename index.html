@@ -18,21 +18,6 @@
     </header>
 
     <main class="wrapper">
-      <section class="card" id="capture-section">
-        <h2>Derniere capture</h2>
-        <p>
-          Approche une figurine : l'URL encodee sur la puce t'amene sur cette page
-          et enregistre automatiquement le Pokemon dans ton Pokedex.
-        </p>
-        <p id="capture-status-message" class="hint">
-          Aucune capture recente. Scanne une figurine pour commencer.
-        </p>
-        <div id="last-catch">
-          <p class="last-catch__title">Pas encore de Pokemon capture.</p>
-          <p class="last-catch__subtitle">Tu en verras le resume ici.</p>
-        </div>
-      </section>
-
       <section class="card" id="progress-section">
         <h2>Progression</h2>
         <div class="progress-bar">
@@ -63,9 +48,9 @@
             <code>scripts/data/pokedex.js</code> pour relier la figurine a un Pokemon.
           </li>
           <li>
-            Pour ouvrir directement une page dediee, encode sur la puce une URL du
-            type <code>https://ton-site.exemple/?pokemon=pikachu</code>. La page
-            reconnaitra l'identifiant et validera la capture.
+            Pour ouvrir la page de capture, encode sur la puce une URL du type
+            <code>https://ton-site.exemple/capture.html?pokemon=pikachu</code>.
+            La page dediee reconnaitra l'identifiant et validera la capture.
           </li>
           <li>
             Installe les figurines sur le terrain de jeu. Les joueurs scannent les
