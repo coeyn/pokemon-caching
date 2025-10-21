@@ -1,4 +1,4 @@
-# Safari NFC Pokemon
+# Pokemon Caching
 
 Prototype de site web qui permet de capturer des figurines Pokemon equipees de puces NFC NTAG213. Chaque tag ouvre directement la page du Pokemon via une URL encodee, ce qui ajoute automatiquement la capture au Pokedex local.
 
@@ -16,7 +16,7 @@ Prototype de site web qui permet de capturer des figurines Pokemon equipees de p
 2. Ouvrez le site depuis ton smartphone ou tout autre appareil pouvant ouvrir un lien NFC.
 3. Approche la figurine de ton telephone : le lien encode t'amene sur la page du Pokemon et valide la capture.
 
-> Astuce : pour tester sur desktop, simulez des captures en ajoutant manuellement des identifiants dans `localStorage` (`localStorage.setItem("safari-nfc-progress-v1", '["pikachu"]')`).
+> Astuce : pour tester sur desktop, simulez des captures en ajoutant manuellement des identifiants dans `localStorage` (`localStorage.setItem("pokemon-caching-progress-v1", '["pikachu"]')`).
 
 ## Associer une puce NFC a un Pokemon
 

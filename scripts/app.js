@@ -1,6 +1,6 @@
 import { pokedex } from "./data/pokedex.js";
 
-const storageKey = "safari-nfc-progress-v1";
+const storageKey = "pokemon-caching-progress-v1";
 
 const captureStatusMessage = document.querySelector(
   "#capture-status-message"
