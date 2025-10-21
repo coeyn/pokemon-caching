@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Safari NFC Pokemon</title>
+    <link rel="stylesheet" href="styles/main.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="wrapper">
+        <h1>Safari NFC Pokemon</h1>
+        <p>
+          Capture des figurines NFC imprimees en 3D pour remplir ton Pokedex en
+          vrai comme en ligne.
+        </p>
+      </div>
+    </header>
+
+    <main class="wrapper">
+      <section class="card" id="capture-section">
+        <h2>Derniere capture</h2>
+        <p>
+          Approche une figurine : l'URL encodee sur la puce t'amene sur cette page
+          et enregistre automatiquement le Pokemon dans ton Pokedex.
+        </p>
+        <p id="capture-status-message" class="hint">
+          Aucune capture recente. Scanne une figurine pour commencer.
+        </p>
+        <div id="last-catch">
+          <p class="last-catch__title">Pas encore de Pokemon capture.</p>
+          <p class="last-catch__subtitle">Tu en verras le resume ici.</p>
+        </div>
+      </section>
+
+      <section class="card" id="progress-section">
+        <h2>Progression</h2>
+        <div class="progress-bar">
+          <div class="progress-bar__fill" id="progress-fill"></div>
+        </div>
+        <p id="progress-summary"></p>
+        <button id="reset-progress" type="button">Reinitialiser mon Pokedex</button>
+      </section>
+      <section class="card" id="pokedex-section">
+        <h2>Pokedex Safari</h2>
+        <p>
+          Liste complete des figurines disponibles. Les figurines capturees
+          s'affichent en couleur.
+        </p>
+        <div id="pokedex-grid" class="pokedex-grid"></div>
+      </section>
+
+      <section class="card" id="howto-section">
+        <h2>Comment ca marche ?</h2>
+        <ol>
+          <li>Prepare une figurine 3D avec une puce NFC NTAG213.</li>
+          <li>
+            Programme la puce avec un identifiant unique. Tu peux stocker un texte
+            (ex: <code>bulbizarre</code>) ou un JSON avec davantage d'infos.
+          </li>
+          <li>
+            Ajoute l'identifiant dans le fichier
+            <code>scripts/data/pokedex.js</code> pour relier la figurine a un Pokemon.
+          </li>
+          <li>
+            Pour ouvrir directement une page dediee, encode sur la puce une URL du
+            type <code>https://ton-site.exemple/?pokemon=pikachu</code>. La page
+            reconnaitra l'identifiant et validera la capture.
+          </li>
+          <li>
+            Installe les figurines sur le terrain de jeu. Les joueurs scannent les
+            figurines et sont rediriges vers la page du Pokemon pour l'ajouter a
+            leur Pokedex.
+          </li>
+        </ol>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrapper">
+        <p>
+          Projet communautaire. Pense pour s'etendre avec un backend (scores,
+          echanges, evenements live).
+        </p>
+      </div>
+    </footer>
+    <script type="module" src="scripts/app.js"></script>
+  </body>
+</html>

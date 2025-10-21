@@ -1,0 +1,58 @@
+# Safari NFC Pokemon
+
+Prototype de site web qui permet de capturer des figurines Pokemon equipees de puces NFC NTAG213. Chaque tag ouvre directement la page du Pokemon via une URL encodee, ce qui ajoute automatiquement la capture au Pokedex local.
+
+## Fonctionnalites actuelles
+
+- Interface statique (HTML, CSS, JavaScript natif) sans dependances externes.
+- Capture automatique lorsqu'on ouvre une URL du type `?pokemon=pikachu` ou `?tag=<id>`.
+- Mise a jour de la progression et stockage local dans le navigateur (`localStorage`).
+- Liste des figurines avec indices, lieu d'exposition et types.
+- Bouton de reinitialisation du Pokedex local.
+
+## Mise en route
+
+1. Servez le dossier via un serveur HTTP statique (exemples : `npx serve`, `python -m http.server`, ou hebergement Netlify/Vercel).
+2. Ouvrez le site depuis ton smartphone ou tout autre appareil pouvant ouvrir un lien NFC.
+3. Approche la figurine de ton telephone : le lien encode t'amene sur la page du Pokemon et valide la capture.
+
+> Astuce : pour tester sur desktop, simulez des captures en ajoutant manuellement des identifiants dans `localStorage` (`localStorage.setItem("safari-nfc-progress-v1", '["pikachu"]')`).
+
+## Associer une puce NFC a un Pokemon
+
+1. Programmez la puce NTAG213 avec un identifiant stable (texte brut, URL ou JSON).
+2. Ajoutez cet identifiant dans le tableau `tagIds` du Pokemon correspondant dans `scripts/data/pokedex.js`.
+3. Pour ouvrir une page dediee lors du scan, encodez une URL du type `https://ton-site.exemple/?pokemon=pikachu`. Le site reconnaitra l'identifiant et confirmera la capture.
+4. Deploiement : mettez a jour le site avec votre nouvelle configuration.
+
+Le code accepte l'identifiant fourni dans l'URL (parametres `pokemon`, `id` ou `tag`). Choisis une convention d'identifiants et encode-la sur chaque puce NFC.
+
+## Limitations et prochaines etapes
+
+- Pour les appareils qui ne declenchent pas automatiquement l'URL NFC, prevois un QR code ou un code court redirigeant vers la bonne page.
+- Aucune authentification ou persistence serveur pour le moment. Ajoutez un backend (ex : Supabase, Firebase, FastAPI + base de donnees) pour :
+  - Sauvegarder la progression des joueurs.
+  - Organiser des evenements avec scores en temps reel.
+  - Gerer l'inventaire des figurines.
+- Ajouter un mode admin pour enregistrer de nouvelles figurines directement depuis le terrain.
+- Prevoir un systeme anti-triche si le jeu devient competitif (signature des tags, validation cote serveur).
+
+## Structure du projet
+
+```
+pokemon_caching/
+|-- index.html        # Page principale
+|-- styles/
+|   `-- main.css      # Style global
+`-- scripts/
+    |-- app.js        # Logique de capture via URL et interface
+    `-- data/
+        `-- pokedex.js # Configuration des figurines
+```
+
+## Idees d'extensions
+
+- Mode cartes : afficher la position des figurines sur un plan interactif (Leaflet, Mapbox).
+- Integration 3D : montrer les figurines imprimees avec un viewer (Three.js + glTF).
+- Classements : toujours mettre en avant l'objectif de collection (bonus pour la vitesse, la rarete).
+- Mode hors ligne : mise en cache via un Service Worker pour jouer sans reseau.
