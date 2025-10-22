@@ -160,9 +160,17 @@ async function validateGeolocation(pokemon) {
     throw new Error("Position GPS invalide. Verifie ton appareil et reessaie.");
   }
 
-  if (distance > radius) {
+  const accuracy = Number.isFinite(position.coords.accuracy)
+    ? position.coords.accuracy
+    : 0;
+
+  const effectiveDistance = Math.max(distance - accuracy, 0);
+
+  if (effectiveDistance > radius) {
     throw new Error(
-      `Tu es trop loin de la figurine (${formatDistance(distance)}). Approche-toi a moins de ${radius} m.`
+      `Tu es trop loin de la figurine (${formatDistance(
+        distance
+      )}, precision ${formatDistance(accuracy)}). Approche-toi a moins de ${radius} m.`
     );
   }
 }

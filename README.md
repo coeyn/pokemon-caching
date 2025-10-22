@@ -26,7 +26,7 @@ Prototype de site web qui permet de capturer des figurines Pokemon equipees de p
 
 1. Programmez la puce NTAG213 avec un identifiant stable (texte brut, URL ou JSON).
 2. Ajoutez cet identifiant dans le tableau `tagIds` du Pokemon correspondant dans `scripts/data/pokedex.js`.
-3. Renseignez les coordonnees GPS (`coordinates`) et le rayon maximum (`captureRadiusMeters`) pour definir la zone de capture autorisee. Si ces champs sont omis, la capture sera possible depuis n'importe ou.
+3. Renseignez les coordonnees GPS (`coordinates`) et le rayon maximum (`captureRadiusMeters`) pour definir la zone de capture autorisee. Si ces champs sont omis, la capture sera possible depuis n'importe ou. L'algorithme tient compte de la precision GPS (`coords.accuracy`) avant de refuser la capture.
 4. Pour ouvrir une page dediee lors du scan, encodez une URL du type `https://ton-site.exemple/capture.html?pokemon=pikachu`. La page reconnaitra l'identifiant, verifiera la position, puis confirmera la capture.
 5. Deploiement : mettez a jour le site avec votre nouvelle configuration.
 
