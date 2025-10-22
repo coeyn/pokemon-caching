@@ -12,6 +12,7 @@ Prototype de site web qui permet de capturer des figurines Pokemon equipees de p
 - Affichage en silhouette pour les Pokemon non captures afin de garder la surprise.
 - Informations detaillees masquees tant que la capture n'est pas realisee (nom/type/lieu remplaces par `???`, seul l'indice reste visible).
 - Verification geographique optionnelle: un Pokemon n'est capturable que si le joueur se trouve dans le rayon defini autour de la figurine.
+- Animation de hautes herbes sur la page de capture, qui s'ouvre une fois la localisation validee et laisse apparaitre le Pokemon.
 - Bouton de reinitialisation du Pokedex local.
 
 ## Mise en route

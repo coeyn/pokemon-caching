@@ -8,16 +8,35 @@
   </head>
   <body>
     <main class="wrapper">
-      <section class="card">
+      <section class="card capture-card">
         <h1>Capture Pokemon</h1>
-        <div id="capture-feedback">
-          <p class="last-catch__title">Recherche du Pokemon...</p>
-          <p class="last-catch__subtitle">
-            Assure-toi que l'URL contient un parametre <code>pokemon</code>,
-            <code>id</code> ou <code>tag</code>.
-          </p>
+        <div class="capture-scene" id="capture-scene">
+          <div class="pokemon-reveal" id="pokemon-reveal"></div>
+          <div class="grass-stage" id="grass-stage">
+            <div class="grass-layer grass-layer--back">
+              <span></span><span></span><span></span><span></span><span></span
+              ><span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <div class="grass-layer grass-layer--mid">
+              <span></span><span></span><span></span><span></span><span></span
+              ><span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <div class="grass-layer grass-layer--front">
+              <span></span><span></span><span></span><span></span><span></span
+              ><span></span><span></span><span></span><span></span><span></span>
+            </div>
+          </div>
+          <div class="capture-status" id="capture-feedback">
+            <p class="last-catch__title">Les hautes herbes bougent...</p>
+            <p class="last-catch__subtitle">
+              Assure-toi que l'URL contient un parametre <code>pokemon</code>,
+              <code>id</code> ou <code>tag</code>.
+            </p>
+          </div>
         </div>
-        <button id="back-home" type="button">Retour a l'accueil</button>
+        <div class="capture-actions">
+          <button id="back-home" type="button">Retour a l'accueil</button>
+        </div>
       </section>
     </main>
     <script type="module" src="scripts/capture.js"></script>

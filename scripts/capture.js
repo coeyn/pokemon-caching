@@ -5,6 +5,9 @@ import { haversineDistanceMeters, formatDistance } from "./utils/geo.js";
 
 const feedback = document.querySelector("#capture-feedback");
 const backButton = document.querySelector("#back-home");
+const grassStage = document.querySelector("#grass-stage");
+const pokemonReveal = document.querySelector("#pokemon-reveal");
+const captureCard = document.querySelector(".capture-card");
 
 if (backButton) {
   backButton.addEventListener("click", () => {
@@ -20,41 +23,46 @@ async function processCapture() {
     return;
   }
 
+  clearRetryButton();
+  setSceneState("idle");
+  updateFeedback("Les hautes herbes bougent...", "Analyse de la zone en cours...");
+
   const params = new URLSearchParams(window.location.search);
   const linkValue =
     params.get("pokemon") ?? params.get("id") ?? params.get("tag");
 
   if (!linkValue) {
-    feedback.innerHTML = `
-      <p class="last-catch__title">Parametres manquants</p>
-      <p class="last-catch__subtitle">
-        Ajoute <code>?pokemon=bulbizarre</code> (ou <code>?tag=...</code>) a l'URL.
-      </p>
-    `;
+    setSceneState("idle");
+    updateFeedback(
+      "Parametres manquants",
+      "Ajoute <code>?pokemon=bulbizarre</code> (ou <code>?tag=...</code>) a l'URL."
+    );
     return;
   }
 
   const match = findPokemon(linkValue);
   if (!match) {
-    feedback.innerHTML = `
-      <p class="last-catch__title">Pokemon inconnu</p>
-      <p class="last-catch__subtitle">
-        Aucun Pokemon ne correspond a "${sanitize(linkValue)}".
-        Mets a jour le fichier <code>scripts/data/pokedex.js</code>.
-      </p>
-    `;
+    setSceneState("error");
+    updateFeedback(
+      "Pokemon inconnu",
+      `Aucun Pokemon ne correspond a "${sanitize(
+        linkValue
+      )}". Mets a jour la configuration.`
+    );
     return;
   }
+
+  setSceneState("processing");
+  updateFeedback(
+    "Les hautes herbes frémissent...",
+    "Patiente le temps que la localisation se verrouille."
+  );
 
   try {
     await validateGeolocation(match);
   } catch (error) {
-    feedback.innerHTML = `
-      <p class="last-catch__title">Localisation requise</p>
-      <p class="last-catch__subtitle">
-        ${sanitize(error.message)}
-      </p>
-    `;
+    setSceneState("error");
+    updateFeedback("Localisation requise", sanitize(error.message));
     addRetryButton();
     return;
   }
@@ -62,18 +70,18 @@ async function processCapture() {
   markAsCaught(match.id);
 
   const imageUrl = getPokemonImageUrl(match);
+  setSceneState("revealed");
 
-  feedback.innerHTML = `
-    ${
-      imageUrl
-        ? `<img class="pokemon-card__image" src="${imageUrl}" alt="Illustration de ${match.name}" onerror="this.remove()" />`
-        : ""
-    }
-    <p class="last-catch__title">${match.name} capture !</p>
-    <p class="last-catch__subtitle">
-      Cette capture est enregistree sur cet appareil.
-    </p>
-  `;
+  if (pokemonReveal) {
+    pokemonReveal.innerHTML = imageUrl
+      ? `<img src="${imageUrl}" alt="${match.name}" onerror="this.remove()" />`
+      : "";
+  }
+
+  updateFeedback(
+    `${match.name} apparait !`,
+    "Cette capture est enregistree sur cet appareil."
+  );
 }
 
 function findPokemon(value) {
@@ -116,15 +124,24 @@ function addRetryButton() {
   button.type = "button";
   button.textContent = "Reessayer";
   button.addEventListener("click", () => {
-    feedback.innerHTML = `
-      <p class="last-catch__title">Nouvelle tentative...</p>
-      <p class="last-catch__subtitle">
-        Autorise l'acces a ta position pour capturer ce Pokemon.
-      </p>
-    `;
+    updateFeedback(
+      "Nouvelle tentative",
+      "Autorise l'acces a ta position et rapproche-toi des hautes herbes."
+    );
+    setSceneState("processing");
     processCapture();
   });
   feedback.appendChild(button);
+}
+
+function clearRetryButton() {
+  if (!feedback) {
+    return;
+  }
+  const button = feedback.querySelector("#retry-capture");
+  if (button) {
+    button.remove();
+  }
 }
 
 function getCaptureRadiusMeters(pokemon) {
@@ -205,4 +222,34 @@ function requestCurrentPosition() {
       maximumAge: 0,
     });
   });
+}
+
+function setSceneState(state) {
+  if (!grassStage) {
+    return;
+  }
+  grassStage.classList.remove("processing", "error", "revealed");
+  captureCard?.classList.remove("revealed");
+  if (state === "processing") {
+    grassStage.classList.add("processing");
+  } else if (state === "error") {
+    grassStage.classList.add("error");
+  } else if (state === "revealed") {
+    grassStage.classList.add("revealed");
+    captureCard?.classList.add("revealed");
+  }
+
+  if (state !== "revealed" && pokemonReveal) {
+    pokemonReveal.innerHTML = "";
+  }
+}
+
+function updateFeedback(title, subtitle) {
+  if (!feedback) {
+    return;
+  }
+  feedback.innerHTML = `
+    <p class="last-catch__title">${title}</p>
+    <p class="last-catch__subtitle">${subtitle}</p>
+  `;
 }
