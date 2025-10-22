@@ -8,6 +8,7 @@ Prototype de site web qui permet de capturer des figurines Pokemon equipees de p
 - Capture automatique lorsqu'on ouvre `capture.html` avec un identifiant (ex. `capture.html?pokemon=pikachu`).
 - Mise a jour de la progression et stockage local dans le navigateur (`localStorage`).
 - Liste des figurines avec indices, lieu d'exposition et types.
+- Illustrations distantes via les sprites officiels de PokeAPI (aucune image hebergee localement).
 - Bouton de reinitialisation du Pokedex local.
 
 ## Mise en route
@@ -25,7 +26,7 @@ Prototype de site web qui permet de capturer des figurines Pokemon equipees de p
 3. Pour ouvrir une page dediee lors du scan, encodez une URL du type `https://ton-site.exemple/capture.html?pokemon=pikachu`. La page reconnaitra l'identifiant et confirmera la capture.
 4. Deploiement : mettez a jour le site avec votre nouvelle configuration.
 
-Le code accepte l'identifiant fourni dans l'URL (parametres `pokemon`, `id` ou `tag`). Choisis une convention d'identifiants et encode-la sur chaque puce NFC.
+Le code accepte l'identifiant fourni dans l'URL (parametres `pokemon`, `id` ou `tag`). Choisis une convention d'identifiants et encode-la sur chaque puce NFC. Les images sont chargees a la volee depuis les sprites officiels exposes par PokeAPI.
 
 ## Limitations et prochaines etapes
 
@@ -41,12 +42,12 @@ Le code accepte l'identifiant fourni dans l'URL (parametres `pokemon`, `id` ou `
 
 ```
 pokemon_caching/
-|-- index.html        # Accueil et Pokédex
+|-- index.html        # Accueil et Pokedex
 |-- capture.html      # Page de capture (via URL NFC)
 |-- styles/
 |   `-- main.css      # Style global
 `-- scripts/
-    |-- app.js        # Logique d'affichage de l'accueil et du Pokédex
+    |-- app.js        # Logique d'affichage de l'accueil et du Pokedex
     |-- capture.js    # Traitement d'une capture via URL
     `-- data/
         `-- pokedex.js # Configuration des figurines

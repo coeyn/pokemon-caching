@@ -1,4 +1,5 @@
 import { pokedex } from "./data/pokedex.js";
+import { getPokemonImageUrl } from "./utils/pokemonAssets.js";
 
 const storageKey = "pokemon-caching-progress-v1";
 
@@ -58,9 +59,15 @@ function renderPokedex() {
       const caught = caughtSet.has(pokemon.id);
       const typeList = pokemon.types ? pokemon.types.join(" / ") : "Inconnu";
       const hint = pokemon.hint ?? "Indice a definir.";
+      const imageUrl = getPokemonImageUrl(pokemon);
 
       return `
         <article class="pokemon-card${caught ? " caught" : ""}" data-id="${pokemon.id}">
+          ${
+            imageUrl
+              ? `<img class="pokemon-card__image" src="${imageUrl}" alt="Illustration de ${pokemon.name}" loading="lazy" onerror="this.remove()" />`
+              : ""
+          }
           <h3>${pokemon.number ? `${pokemon.number} - ` : ""}${pokemon.name}</h3>
           <p><strong>Type :</strong> ${typeList}</p>
           <p><strong>Lieu :</strong> ${pokemon.habitat ?? "A definir"}</p>

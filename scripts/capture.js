@@ -1,5 +1,6 @@
 import { pokedex } from "./data/pokedex.js";
 import { markAsCaught } from "./app.js";
+import { getPokemonImageUrl } from "./utils/pokemonAssets.js";
 
 const feedback = document.querySelector("#capture-feedback");
 const backButton = document.querySelector("#back-home");
@@ -46,7 +47,14 @@ function processCapture() {
 
   markAsCaught(match.id);
 
+  const imageUrl = getPokemonImageUrl(match);
+
   feedback.innerHTML = `
+    ${
+      imageUrl
+        ? `<img class="pokemon-card__image" src="${imageUrl}" alt="Illustration de ${match.name}" onerror="this.remove()" />`
+        : ""
+    }
     <p class="last-catch__title">${match.name} capture !</p>
     <p class="last-catch__subtitle">
       Cette capture est enregistree sur cet appareil.
