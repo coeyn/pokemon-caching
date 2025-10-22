@@ -41,7 +41,7 @@ export const pokedex = [
     hint: "Les eclairs ne sont jamais loin de lui.",
     tagIds: ["PIKACHU", "04:D9:88:77:66:55:44:33"],
     coordinates: { latitude: 48.472260, longitude: -2.675757 },
-    captureRadiusMeters: 5,
+    captureRadiusMeters: 15,
   },
   {
     id: "ronflex",
