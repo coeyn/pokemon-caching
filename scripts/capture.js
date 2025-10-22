@@ -1,6 +1,7 @@
 import { pokedex } from "./data/pokedex.js";
 import { markAsCaught } from "./app.js";
 import { getPokemonImageUrl } from "./utils/pokemonAssets.js";
+import { haversineDistanceMeters, formatDistance } from "./utils/geo.js";
 
 const feedback = document.querySelector("#capture-feedback");
 const backButton = document.querySelector("#back-home");
@@ -14,7 +15,7 @@ if (backButton) {
 
 processCapture();
 
-function processCapture() {
+async function processCapture() {
   if (!feedback) {
     return;
   }
@@ -42,6 +43,19 @@ function processCapture() {
         Mets a jour le fichier <code>scripts/data/pokedex.js</code>.
       </p>
     `;
+    return;
+  }
+
+  try {
+    await validateGeolocation(match);
+  } catch (error) {
+    feedback.innerHTML = `
+      <p class="last-catch__title">Localisation requise</p>
+      <p class="last-catch__subtitle">
+        ${sanitize(error.message)}
+      </p>
+    `;
+    addRetryButton();
     return;
   }
 
@@ -91,4 +105,96 @@ function sanitize(value) {
   const div = document.createElement("div");
   div.textContent = value;
   return div.innerHTML;
+}
+
+function addRetryButton() {
+  if (!feedback || feedback.querySelector("#retry-capture")) {
+    return;
+  }
+  const button = document.createElement("button");
+  button.id = "retry-capture";
+  button.type = "button";
+  button.textContent = "Reessayer";
+  button.addEventListener("click", () => {
+    feedback.innerHTML = `
+      <p class="last-catch__title">Nouvelle tentative...</p>
+      <p class="last-catch__subtitle">
+        Autorise l'acces a ta position pour capturer ce Pokemon.
+      </p>
+    `;
+    processCapture();
+  });
+  feedback.appendChild(button);
+}
+
+function getCaptureRadiusMeters(pokemon) {
+  const fallback = 50;
+  if (!pokemon || typeof pokemon.captureRadiusMeters !== "number") {
+    return fallback;
+  }
+  return pokemon.captureRadiusMeters;
+}
+
+async function validateGeolocation(pokemon) {
+  if (!pokemon.coordinates) {
+    return;
+  }
+
+  if (!("geolocation" in navigator)) {
+    throw new Error(
+      "Ton appareil ne supporte pas la geolocalisation. Capture impossible."
+    );
+  }
+
+  const position = await requestCurrentPosition();
+  const { latitude, longitude } = position.coords;
+  const distance = haversineDistanceMeters(
+    latitude,
+    longitude,
+    pokemon.coordinates.latitude,
+    pokemon.coordinates.longitude
+  );
+  const radius = getCaptureRadiusMeters(pokemon);
+
+  if (!Number.isFinite(distance)) {
+    throw new Error("Position GPS invalide. Verifie ton appareil et reessaie.");
+  }
+
+  if (distance > radius) {
+    throw new Error(
+      `Tu es trop loin de la figurine (${formatDistance(distance)}). Approche-toi a moins de ${radius} m.`
+    );
+  }
+}
+
+function requestCurrentPosition() {
+  return new Promise((resolve, reject) => {
+    navigator.geolocation.getCurrentPosition(resolve, (error) => {
+      switch (error.code) {
+        case error.PERMISSION_DENIED:
+          reject(
+            new Error(
+              "Autorise la geolocalisation pour capturer ce Pokemon."
+            )
+          );
+          break;
+        case error.POSITION_UNAVAILABLE:
+          reject(
+            new Error("Impossible d'obtenir la position actuelle. Reessaie.")
+          );
+          break;
+        case error.TIMEOUT:
+          reject(
+            new Error("Le GPS a mis trop de temps a repondre. Reessaie.")
+          );
+          break;
+        default:
+          reject(new Error("Erreur GPS inattendue. Reessaie."));
+      }
+    }, {
+      enableHighAccuracy: true,
+      timeout: 10000,
+      maximumAge: 0,
+    });
+  });
 }

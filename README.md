@@ -11,6 +11,7 @@ Prototype de site web qui permet de capturer des figurines Pokemon equipees de p
 - Illustrations distantes via les sprites officiels de PokeAPI (aucune image hebergee localement).
 - Affichage en silhouette pour les Pokemon non captures afin de garder la surprise.
 - Informations detaillees masquees tant que la capture n'est pas realisee (nom/type/lieu remplaces par `???`, seul l'indice reste visible).
+- Verification geographique optionnelle: un Pokemon n'est capturable que si le joueur se trouve dans le rayon defini autour de la figurine.
 - Bouton de reinitialisation du Pokedex local.
 
 ## Mise en route
@@ -25,8 +26,9 @@ Prototype de site web qui permet de capturer des figurines Pokemon equipees de p
 
 1. Programmez la puce NTAG213 avec un identifiant stable (texte brut, URL ou JSON).
 2. Ajoutez cet identifiant dans le tableau `tagIds` du Pokemon correspondant dans `scripts/data/pokedex.js`.
-3. Pour ouvrir une page dediee lors du scan, encodez une URL du type `https://ton-site.exemple/capture.html?pokemon=pikachu`. La page reconnaitra l'identifiant et confirmera la capture.
-4. Deploiement : mettez a jour le site avec votre nouvelle configuration.
+3. Renseignez les coordonnees GPS (`coordinates`) et le rayon maximum (`captureRadiusMeters`) pour definir la zone de capture autorisee. Si ces champs sont omis, la capture sera possible depuis n'importe ou.
+4. Pour ouvrir une page dediee lors du scan, encodez une URL du type `https://ton-site.exemple/capture.html?pokemon=pikachu`. La page reconnaitra l'identifiant, verifiera la position, puis confirmera la capture.
+5. Deploiement : mettez a jour le site avec votre nouvelle configuration.
 
 Le code accepte l'identifiant fourni dans l'URL (parametres `pokemon`, `id` ou `tag`). Choisis une convention d'identifiants et encode-la sur chaque puce NFC. Les images sont chargees a la volee depuis les sprites officiels exposes par PokeAPI.
 
@@ -50,7 +52,10 @@ pokemon_caching/
 |   `-- main.css      # Style global
 `-- scripts/
     |-- app.js        # Logique d'affichage de l'accueil et du Pokedex
-    |-- capture.js    # Traitement d'une capture via URL
+    |-- capture.js    # Traitement d'une capture via URL + verification GPS
+    |-- utils/
+    |   |-- geo.js         # Fonctions de calcul de distance
+    |   `-- pokemonAssets.js # Construction des URLs de sprites distants
     `-- data/
         `-- pokedex.js # Configuration des figurines
 ```

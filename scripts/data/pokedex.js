@@ -7,6 +7,8 @@ export const pokedex = [
     habitat: "Serre botanique",
     hint: "Cherche pres des plantes exotiques.",
     tagIds: ["BULBIZARRE", "04:A2:00:00:B1:23:45:67"],
+    coordinates: { latitude: 48.8566, longitude: 2.3522 },
+    captureRadiusMeters: 60,
   },
   {
     id: "salameche",
@@ -16,6 +18,8 @@ export const pokedex = [
     habitat: "Forge mysterieuse",
     hint: "Une source de chaleur intense devrait t'aider.",
     tagIds: ["SALAMECHE", "04:B1:11:22:C3:55:77:99"],
+    coordinates: { latitude: 48.8572, longitude: 2.3517 },
+    captureRadiusMeters: 40,
   },
   {
     id: "carapuce",
@@ -25,6 +29,8 @@ export const pokedex = [
     habitat: "Fontaine centrale",
     hint: "Rapproche-toi des points d'eau.",
     tagIds: ["CARAPUCE", "04:C4:AA:BB:12:34:56:78"],
+    coordinates: { latitude: 48.8564, longitude: 2.3535 },
+    captureRadiusMeters: 50,
   },
   {
     id: "pikachu",
@@ -34,6 +40,8 @@ export const pokedex = [
     habitat: "Generateur electrique",
     hint: "Les eclairs ne sont jamais loin de lui.",
     tagIds: ["PIKACHU", "04:D9:88:77:66:55:44:33"],
+    coordinates: { latitude: 48.472260, longitude: -2.675757 },
+    captureRadiusMeters: 5,
   },
   {
     id: "ronflex",
@@ -43,6 +51,8 @@ export const pokedex = [
     habitat: "Salle de repos",
     hint: "Tu devras peut-etre le reveiller...",
     tagIds: ["RONFLEX", "04:E0:DE:AD:BE:EF:00:01"],
+    coordinates: { latitude: 48.8559, longitude: 2.3526 },
+    captureRadiusMeters: 80,
   },
   {
     id: "mewtwo",
@@ -52,5 +62,7 @@ export const pokedex = [
     habitat: "Laboratoire secret",
     hint: "Uniquement pour les dresseurs les plus determines.",
     tagIds: ["MEWTWO", "04:F1:CA:FE:12:34:56:90"],
+    coordinates: { latitude: 48.8581, longitude: 2.3541 },
+    captureRadiusMeters: 25,
   },
 ];
