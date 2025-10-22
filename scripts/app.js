@@ -66,18 +66,29 @@ function renderPokedex() {
       const imageAlt = caught
         ? `Illustration de ${pokemon.name}`
         : `Silhouette de ${pokemon.name}`;
+      const cardClass = `pokemon-card${caught ? " caught" : " locked"}`;
+      const title = caught
+        ? `${pokemon.number ? `${pokemon.number} - ` : ""}${pokemon.name}`
+        : "???";
+      const typeLine = caught
+        ? `<p><strong>Type :</strong> ${typeList}</p>`
+        : `<p><strong>Type :</strong> ???</p>`;
+      const habitatLine = caught
+        ? `<p><strong>Lieu :</strong> ${pokemon.habitat ?? "A definir"}</p>`
+        : `<p><strong>Lieu :</strong> ???</p>`;
+      const hintLine = `<p><strong>Indice :</strong> ${hint}</p>`;
 
       return `
-        <article class="pokemon-card${caught ? " caught" : ""}" data-id="${pokemon.id}">
+        <article class="${cardClass}" data-id="${pokemon.id}">
           ${
             imageUrl
               ? `<img class="${imageClass}" src="${imageUrl}" alt="${imageAlt}" loading="lazy" onerror="this.remove()" />`
               : ""
           }
-          <h3>${pokemon.number ? `${pokemon.number} - ` : ""}${pokemon.name}</h3>
-          <p><strong>Type :</strong> ${typeList}</p>
-          <p><strong>Lieu :</strong> ${pokemon.habitat ?? "A definir"}</p>
-          <p>${hint}</p>
+          <h3>${title}</h3>
+          ${typeLine}
+          ${habitatLine}
+          ${hintLine}
         </article>
       `;
     })

@@ -10,6 +10,7 @@ Prototype de site web qui permet de capturer des figurines Pokemon equipees de p
 - Liste des figurines avec indices, lieu d'exposition et types.
 - Illustrations distantes via les sprites officiels de PokeAPI (aucune image hebergee localement).
 - Affichage en silhouette pour les Pokemon non captures afin de garder la surprise.
+- Informations detaillees masquees tant que la capture n'est pas realisee (nom/type/lieu remplaces par `???`, seul l'indice reste visible).
 - Bouton de reinitialisation du Pokedex local.
 
 ## Mise en route
