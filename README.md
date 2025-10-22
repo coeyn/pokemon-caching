@@ -9,6 +9,7 @@ Prototype de site web qui permet de capturer des figurines Pokemon equipees de p
 - Mise a jour de la progression et stockage local dans le navigateur (`localStorage`).
 - Liste des figurines avec indices, lieu d'exposition et types.
 - Illustrations distantes via les sprites officiels de PokeAPI (aucune image hebergee localement).
+- Affichage en silhouette pour les Pokemon non captures afin de garder la surprise.
 - Bouton de reinitialisation du Pokedex local.
 
 ## Mise en route

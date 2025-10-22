@@ -60,12 +60,18 @@ function renderPokedex() {
       const typeList = pokemon.types ? pokemon.types.join(" / ") : "Inconnu";
       const hint = pokemon.hint ?? "Indice a definir.";
       const imageUrl = getPokemonImageUrl(pokemon);
+      const imageClass = `pokemon-card__image${
+        caught ? "" : " pokemon-card__image--locked"
+      }`;
+      const imageAlt = caught
+        ? `Illustration de ${pokemon.name}`
+        : `Silhouette de ${pokemon.name}`;
 
       return `
         <article class="pokemon-card${caught ? " caught" : ""}" data-id="${pokemon.id}">
           ${
             imageUrl
-              ? `<img class="pokemon-card__image" src="${imageUrl}" alt="Illustration de ${pokemon.name}" loading="lazy" onerror="this.remove()" />`
+              ? `<img class="${imageClass}" src="${imageUrl}" alt="${imageAlt}" loading="lazy" onerror="this.remove()" />`
               : ""
           }
           <h3>${pokemon.number ? `${pokemon.number} - ` : ""}${pokemon.name}</h3>
