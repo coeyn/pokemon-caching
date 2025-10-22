@@ -166,7 +166,7 @@ button:active {
 }
 
 .pokemon-card__image--locked {
-  filter: brightness(0.1) contrast(1.1) saturate(0) drop-shadow(0 12px 20px rgba(15, 23, 42, 0.45));
+  filter: brightness(0) contrast(1.1) saturate(0) drop-shadow(0 12px 20px rgba(15, 23, 42, 0.45));
   opacity: 0.75;
 }
 
